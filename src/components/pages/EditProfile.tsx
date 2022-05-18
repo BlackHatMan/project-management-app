@@ -62,6 +62,7 @@ const EditProfile = () => {
     };
   }, [id, name, token]);
 
+  // uncomment to check ErrorBoundary
   const checkErrorBoundary = () => {
     throw new Error('Something went wrong in Login component');
   };

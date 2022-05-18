@@ -1,10 +1,8 @@
 import { Component } from 'react';
-import { withTranslation, TFunction } from 'react-i18next';
 import ErrorMessage from '../ErrorMessage';
 
 type ErrorBoundaryPops = {
   children: React.ReactNode;
-  t: TFunction;
 };
 
 type ErrorBoundaryState = {
@@ -32,4 +30,4 @@ class ErrorBoundary extends Component<ErrorBoundaryPops, ErrorBoundaryState> {
   }
 }
 
-export default withTranslation()(ErrorBoundary);
+export default ErrorBoundary;
