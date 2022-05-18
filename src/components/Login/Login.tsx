@@ -48,10 +48,6 @@ export const Login = () => {
     }
   };
 
-  const checkErrorBoundary = () => {
-    throw new Error('Something went wrong in Login component');
-  };
-
   return (
     <Container maxWidth="xs">
       <CssBaseline />
@@ -69,7 +65,6 @@ export const Login = () => {
         </Avatar>
         <Typography component="h1" variant="h4">
           {t('LOGIN.HEADER')}
-          {checkErrorBoundary()}
         </Typography>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
           <TextField

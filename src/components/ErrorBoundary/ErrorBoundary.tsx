@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { withTranslation, TFunction } from 'react-i18next';
+import ErrorMessage from '../ErrorMessage';
 
 type ErrorBoundaryPops = {
   children: React.ReactNode;
@@ -23,9 +24,8 @@ class ErrorBoundary extends Component<ErrorBoundaryPops, ErrorBoundaryState> {
   }
 
   render() {
-    const { t } = this.props;
     if (this.state.hasError) {
-      return <h3>{t('ERROR_BOUNDARY_MSG')}</h3>;
+      return <ErrorMessage />;
     } else {
       return this.props.children;
     }
