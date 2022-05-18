@@ -22,8 +22,6 @@ const SingleBoardPage = () => {
   const { rejectMsg } = useAppSelector((state) => state.boards);
   const dispatch = useAppDispatch();
   const { boardId } = useParams();
-  // const navigation = useNavigate();
-  console.log(rejectMsg);
 
   useEffect(() => {
     if (boardId) {
