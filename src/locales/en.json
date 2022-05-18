@@ -80,7 +80,8 @@
     "UPDATE_BTN": "Update",
     "EDIT_PROFILE": "Edit profile",
     "NOT_FOUND_PAGE": "Page not found. No match in url",
-    "BACK_TO_MAIN": "Back to main page"
+    "BACK_TO_MAIN": "Back to main page",
+    "BACK_TO_BOARDS": "Back to boards"
 }
 
 
