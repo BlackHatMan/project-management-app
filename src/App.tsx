@@ -13,9 +13,11 @@ function App() {
         <Route
           path="edit-profile"
           element={
-            <RequireAuth>
-              <EditProfile />
-            </RequireAuth>
+            <ErrorBoundary>
+              <RequireAuth>
+                <EditProfile />
+              </RequireAuth>
+            </ErrorBoundary>
           }
         />
         <Route path="edit" element={<Navigate to="/edit-profile" replace />} />
@@ -45,7 +47,14 @@ function App() {
             </ErrorBoundary>
           }
         />
-        <Route path="signup" element={<SignUp />} />
+        <Route
+          path="signup"
+          element={
+            <ErrorBoundary>
+              <SignUp />
+            </ErrorBoundary>
+          }
+        />
         <Route path="*" element={<Page404 />} />
       </Route>
     </Routes>

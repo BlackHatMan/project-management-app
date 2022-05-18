@@ -1,6 +1,9 @@
-import React from 'react';
+import { Container, Grid, Typography, CardMedia } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import errImg from '../../assets/images/error-page.jpg';
 
 const ErrorMessage = () => {
+  const { t } = useTranslation();
   return (
     <Container
       maxWidth="lg"
@@ -10,20 +13,17 @@ const ErrorMessage = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+        color: 'gray',
       }}
     >
-      <Typography variant="h6" mb={2} sx={{ color: 'gray' }}>
-        {t('NOT_FOUND_PAGE')}
-      </Typography>
-      {from === boardPath ? (
-        <Button variant="contained" component={Link} to="/boards">
-          {t('BACK_TO_BOARDS')}
-        </Button>
-      ) : (
-        <Button variant="contained" component={Link} to="/">
-          {t('BACK_TO_MAIN')}
-        </Button>
-      )}
+      <Grid container justifyContent="center" alignItems="center">
+        <Grid item>
+          <Typography variant="h3">{t('ERROR_BOUNDARY_MSG')}</Typography>
+        </Grid>
+        <Grid item>
+          <CardMedia component="img" height="140" image={errImg} alt="error-page" />
+        </Grid>
+      </Grid>
     </Container>
   );
 };
