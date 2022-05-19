@@ -62,11 +62,6 @@ const EditProfile = () => {
     };
   }, [id, name, token]);
 
-  // added to check ErrorBoundary need to be removed
-  const checkErrorBoundary = () => {
-    throw new Error('Something went wrong in Login component');
-  };
-
   return (
     <Container maxWidth="xs">
       <CssBaseline />
@@ -81,8 +76,6 @@ const EditProfile = () => {
       >
         <Typography component="h1" variant="h4">
           {t('EDIT_PROFILE')}
-          {/* need to be removed after checking */}
-          {checkErrorBoundary()}
         </Typography>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
           <TextField
