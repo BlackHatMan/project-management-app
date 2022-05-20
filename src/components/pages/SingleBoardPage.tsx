@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button, Container, Stack, Typography, Grid } from '@mui/material';
-import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import { Button, Container, Stack } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { getSingleBoard } from '../../store/slices/boardSlice';
@@ -15,6 +14,12 @@ import { getAllUsers } from '../../store/slices/userReducer';
 import { useTranslation } from 'react-i18next';
 import { updateDragTask, updDragTask, moveTaskOnServer } from '../../store/slices/taskResucer';
 import { ITask } from '../../types/board';
+import Toolbar from '../Toolbar';
+
+export type IFilters = {
+  searchText: string;
+  usersId: string[];
+};
 
 const SingleBoardPage = () => {
   const [isOpenModalAddNewColumn, setIsOpenModalAddNewColumn] = useState(false);
@@ -22,9 +27,20 @@ const SingleBoardPage = () => {
     rejectMsg,
     singleBoard: { columns, title },
   } = useAppSelector((state) => state.boards);
+  const [filters, setFilters] = useState<IFilters>({ searchText: '', usersId: [] });
   const dispatch = useAppDispatch();
   const { boardId } = useParams();
   const navigate = useNavigate();
+
+  const usersIdCreatedTasks: string[] = [];
+
+  columns.forEach((column) => {
+    column?.tasks?.forEach((task) => {
+      if (!usersIdCreatedTasks.includes(task.userId)) {
+        usersIdCreatedTasks.push(task.userId);
+      }
+    });
+  });
 
   useEffect(() => {
     if (boardId) {
@@ -217,17 +233,11 @@ const SingleBoardPage = () => {
         overflowY: 'hidden',
       }}
     >
-      <Grid container alignItems="center">
-        <Grid item>
-          <DashboardRoundedIcon sx={{ color: '#303F9F' }} />
-        </Grid>
-        <Grid item>
-          <Typography align="left" variant="h5" sx={{ fontWeight: 'bold', color: '#303F9F' }}>
-            {/* {t('BOARD.BOARD')} {title.slice(2)} */}
-            {title.slice(2)}
-          </Typography>
-        </Grid>
-      </Grid>
+      <Toolbar
+        filters={filters}
+        setFilters={setFilters}
+        usersIdCreatedTasks={usersIdCreatedTasks}
+      ></Toolbar>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="board" direction="horizontal">
           {(provided) => {
@@ -245,7 +255,7 @@ const SingleBoardPage = () => {
                 {[...columns]
                   .sort((a, b) => a.order - b.order)
                   .map((column: IColumnsResp) => (
-                    <Column key={column.id} column={column} />
+                    <Column key={column.id} column={column} filters={filters} />
                   ))}
                 {provided.placeholder}
                 <Button

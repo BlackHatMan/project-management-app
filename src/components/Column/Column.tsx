@@ -15,12 +15,13 @@ import { IColumn } from '../../types/board';
 import { deleteColumn, updateColumn } from '../../store/slices/columnReducer';
 import Task from '../Task';
 import { useTranslation } from 'react-i18next';
+import { IFilters } from '../pages/SingleBoardPage';
 
 type IFormInputChangeName = {
   title: string;
 };
 
-const Column = ({ column }: { column: IColumn }) => {
+const Column = ({ column, filters }: { column: IColumn; filters: IFilters }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isOpenModalAddNewTask, setisOpenModalAddNewTask] = React.useState(false);
   const {
@@ -50,14 +51,6 @@ const Column = ({ column }: { column: IColumn }) => {
   return (
     <Draggable draggableId={column.id} index={column.order}>
       {(provided) => (
-        // <ListItem
-        //   sx={{
-        //     width: '400px',
-        //     minWidth: '400px',
-        //     m: 0,
-        //     p: 0,
-        //   }}
-        // >
         <Stack
           spacing={0}
           sx={{
@@ -70,10 +63,8 @@ const Column = ({ column }: { column: IColumn }) => {
             ml: 2,
             mr: 2,
             backgroundColor: 'rgba(213, 217, 233, .7)',
-            // height: '73vh',
           }}
           component="li"
-          // isDragging={snapshot.isDragging}
           ref={provided.innerRef}
           {...provided.draggableProps}
         >
@@ -83,12 +74,6 @@ const Column = ({ column }: { column: IColumn }) => {
               minWidth: '370px',
               display: 'flex',
               justifyContent: 'space-between',
-              // border: '1px solid Gray',
-              // borderRadius: 2,
-              // padding: 2,
-              // m: 0,
-              // backgroundColor: 'rgba(213, 217, 233, .7)',
-              // maxHeight: '73vh',
             }}
             {...provided.dragHandleProps}
           >
@@ -228,6 +213,13 @@ const Column = ({ column }: { column: IColumn }) => {
                   {column.tasks &&
                     [...column.tasks]
                       .sort((a, b) => a.order - b.order)
+                      .filter(
+                        (task) =>
+                          (filters.searchText === '' ||
+                            task.title.includes(filters.searchText) ||
+                            task.description.includes(filters.searchText)) &&
+                          (filters.usersId.length === 0 || filters.usersId.includes(task.userId))
+                      )
                       .map((task) => <Task key={task.id} task={task} />)}
                   {dropProvided.placeholder}
                 </Stack>
