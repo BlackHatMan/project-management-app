@@ -21,9 +21,7 @@ export const getAllUsers = createAsyncThunk<IUserResp[], undefined, { rejectValu
 
     if (!response.ok) {
       const resp = await response.json();
-      return rejectWithValue(
-        `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-      );
+      return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
     }
 
     const resp: IUserResp[] = await response.json();

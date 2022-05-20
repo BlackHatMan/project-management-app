@@ -19,15 +19,17 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../hooks/redux.hooks';
 import { IBoardPreview } from '../../types/board';
+import { useTranslation } from 'react-i18next';
 
-const BoardPreview: FC<{ board: IBoardPreview; handlerDelete: (id: string) => void }> = ({
-  board,
-  handlerDelete,
-}) => {
+const BoardPreview: FC<{
+  board: IBoardPreview;
+  handlerDelete: (id: string) => void;
+}> = ({ board, handlerDelete }) => {
   const [isEdit, setIsEdit] = React.useState(false);
   const [isOpenConformModal, setIsOpenConformModal] = React.useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const {
     register,
@@ -44,7 +46,9 @@ const BoardPreview: FC<{ board: IBoardPreview; handlerDelete: (id: string) => vo
   return (
     <Card sx={{ width: '21rem', maxWidth: '21rem', height: '15rem', border: 2 }}>
       <CardMedia
-        onClick={() => navigate(`/boards/${board.id}`)}
+        onClick={() => {
+          navigate(`/boards/${board.id}`);
+        }}
         component="img"
         height="170"
         image={dataPictures[+board.title?.slice(0, 2)]}
@@ -93,7 +97,7 @@ const BoardPreview: FC<{ board: IBoardPreview; handlerDelete: (id: string) => vo
                 })}
               />
               <Box>
-                <Tooltip title="Change name">
+                <Tooltip title={t('BOARD.CHANGE_NAME')}>
                   <IconButton
                     aria-label="change name"
                     color="primary"
@@ -106,7 +110,7 @@ const BoardPreview: FC<{ board: IBoardPreview; handlerDelete: (id: string) => vo
                     <CheckCircleIcon />
                   </IconButton>
                 </Tooltip>
-                <Tooltip title="Cancel">
+                <Tooltip title={t('CANCEL_BTN')}>
                   <IconButton
                     aria-label="cancel"
                     color="primary"
@@ -135,7 +139,7 @@ const BoardPreview: FC<{ board: IBoardPreview; handlerDelete: (id: string) => vo
             {board.title.slice(2)}
           </Typography>
         )}
-        <Tooltip title="Delete board">
+        <Tooltip title={t('BOARD.DELETE')}>
           <IconButton aria-label="delete" onClick={() => setIsOpenConformModal(true)}>
             <DeleteIcon />
           </IconButton>

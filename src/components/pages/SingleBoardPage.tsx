@@ -14,12 +14,10 @@ import { getAllUsers } from '../../store/slices/userReducer';
 import { useTranslation } from 'react-i18next';
 import { updateDragTask, updDragTask, moveTaskOnServer } from '../../store/slices/taskResucer';
 import { ITask } from '../../types/board';
-import Page404 from '../pages/Page404';
 
 const SingleBoardPage = () => {
   const [isOpenModalAddNewColumn, setIsOpenModalAddNewColumn] = useState(false);
   const { columns, title } = useAppSelector((state) => state.boards.singleBoard);
-  const { rejectMsg } = useAppSelector((state) => state.boards);
   const dispatch = useAppDispatch();
   const { boardId } = useParams();
 
@@ -184,9 +182,9 @@ const SingleBoardPage = () => {
     }
   };
 
-  if (rejectMsg !== '') {
-    return <Page404 from="board" />;
-  }
+  // if (rejectMsg !== '') {
+  //   return <Page404 from="board" />;
+  // }
 
   return (
     <Container

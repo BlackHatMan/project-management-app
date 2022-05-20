@@ -32,11 +32,8 @@ export const getAllBoards = createAsyncThunk<IBoardPreview[], undefined, { rejec
 
     if (!response.ok) {
       const resp = await response.json();
-      return rejectWithValue(
-        `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-      );
+      return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
     }
-
     return await response.json();
   }
 );
@@ -56,9 +53,7 @@ export const createBoard = createAsyncThunk<IBoardPreview, string, { rejectValue
 
     if (!response.ok) {
       const resp = await response.json();
-      return rejectWithValue(
-        `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-      );
+      return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
     }
 
     return await response.json();
@@ -80,9 +75,7 @@ export const updateBoard = createAsyncThunk<IBoardPreview, IBoardPreview, { reje
 
     if (!response.ok) {
       const resp = await response.json();
-      return rejectWithValue(
-        `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-      );
+      return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
     }
 
     return await response.json();
@@ -102,9 +95,7 @@ export const deleteBoard = createAsyncThunk<string, string, { rejectValue: strin
 
     if (!response.ok) {
       const resp = await response.json();
-      return rejectWithValue(
-        `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-      );
+      return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
     }
     return id;
   }
@@ -123,9 +114,7 @@ export const getSingleBoard = createAsyncThunk<IBoard, string, { rejectValue: st
 
     if (!response.ok) {
       const resp = await response.json();
-      return rejectWithValue(
-        `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-      );
+      return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
     }
     const data: IBoard = await response.json();
     data.columns.sort((a, b) => {

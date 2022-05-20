@@ -7,6 +7,7 @@ export interface boardState {
   singleBoard: IBoard;
   usersAll: UserResponse[];
 }
+
 export type IBoardPreview = {
   id: string;
   title: string;

@@ -26,9 +26,7 @@ export const createTask = createAsyncThunk<ITaskResponse, ITaskResponse, { rejec
 
     if (!response.ok) {
       const resp = await response.json();
-      return rejectWithValue(
-        `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-      );
+      return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
     }
     return await response.json();
   }
@@ -54,9 +52,7 @@ export const deleteTask = createAsyncThunk<
 
   if (!response.ok) {
     const resp = await response.json();
-    return rejectWithValue(
-      `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-    );
+    return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
   }
   const orderDeleteTask = tasks.find((task) => task.id === data.taskId)?.order || 0;
   const TasksWithoutDelete = tasks.filter((el) => el.id !== data.taskId);
@@ -107,9 +103,7 @@ export const moveTaskOnServer = createAsyncThunk<undefined, IDataMoveTask, { rej
     );
     if (!response.ok) {
       const resp = await response.json();
-      return rejectWithValue(
-        `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-      );
+      return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
     }
   }
 );
@@ -138,9 +132,7 @@ export const updateTask = createAsyncThunk<updateTaskResponse, updateTask, { rej
 
     if (!response.ok) {
       const resp = await response.json();
-      return rejectWithValue(
-        `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-      );
+      return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
     }
     const updatedTask = await response.json();
     return { newTask: updatedTask, indexColumns: data.indexColumns };

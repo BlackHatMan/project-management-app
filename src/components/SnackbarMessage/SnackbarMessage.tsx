@@ -2,6 +2,7 @@ import { useState, forwardRef, useEffect } from 'react';
 import { Stack, Snackbar } from '@mui/material';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { useAppSelector } from '../../hooks/redux.hooks';
+import { useTranslation } from 'react-i18next';
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -11,6 +12,7 @@ const SnackbarMessage = () => {
   const [open, setOpen] = useState(false);
   const { rejectMsg: rejectMsgAuth } = useAppSelector((state) => state.auth);
   const { rejectMsg: rejectMsgBoards } = useAppSelector((state) => state.boards);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (rejectMsgAuth || rejectMsgBoards) {
@@ -22,14 +24,18 @@ const SnackbarMessage = () => {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpen(false);
   };
+
+  const incomeMessage = rejectMsgAuth || rejectMsgBoards;
+  const [code, message] = incomeMessage.split('/');
+  const visibleMessage = `${t('ERROR_RESPONSE')} ${code} - ${message}`;
+
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
       <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
-          {rejectMsgAuth || rejectMsgBoards}
+          {visibleMessage}
         </Alert>
       </Snackbar>
     </Stack>

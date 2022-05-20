@@ -51,9 +51,7 @@ export const createColumn = createAsyncThunk<
 
   if (!response.ok) {
     const resp = await response.json();
-    return rejectWithValue(
-      `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-    );
+    return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
   }
   return await response.json();
 });
@@ -73,9 +71,7 @@ export const updateColumn = createAsyncThunk<undefined, updateColumn, { rejectVa
 
     if (!response.ok) {
       const resp = await response.json();
-      return rejectWithValue(
-        `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-      );
+      return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
     }
   }
 );
@@ -123,9 +119,7 @@ export const deleteColumn = createAsyncThunk<
   });
   if (!response.ok) {
     const resp = await response.json();
-    return rejectWithValue(
-      `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-    );
+    return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
   }
 
   updateSyncOrderOnServer(
@@ -167,9 +161,7 @@ const updateSyncOrderOnServer = async (
     });
     if (!response.ok) {
       const resp = await response.json();
-      return rejectWithValue(
-        `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-      );
+      return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
     }
     const data = await response.json();
     acc.push(data);
