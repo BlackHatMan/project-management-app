@@ -201,10 +201,6 @@ const SingleBoardPage = () => {
     }
   };
 
-  // if (rejectMsg !== '') {
-  //   return <Page404 from="board" />;
-  // }
-
   return (
     <Container
       maxWidth={false}
