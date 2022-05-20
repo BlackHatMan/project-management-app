@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Container, Stack, Typography, Grid } from '@mui/material';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { getSingleBoard } from '../../store/slices/boardSlice';
 import { updateColumn, updateDrag } from '../../store/slices/columnReducer';
+import { logOut } from '../../store/slices/authSlice';
 import NewColumn from '../NewColumn';
 import ModalWindow from '../ModalWindow';
 import Column from '../Column';
@@ -17,9 +18,13 @@ import { ITask } from '../../types/board';
 
 const SingleBoardPage = () => {
   const [isOpenModalAddNewColumn, setIsOpenModalAddNewColumn] = useState(false);
-  const { columns, title } = useAppSelector((state) => state.boards.singleBoard);
+  const {
+    rejectMsg,
+    singleBoard: { columns, title },
+  } = useAppSelector((state) => state.boards);
   const dispatch = useAppDispatch();
   const { boardId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (boardId) {
@@ -32,6 +37,20 @@ const SingleBoardPage = () => {
   }, [dispatch]);
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (rejectMsg) {
+      const [code] = rejectMsg.split('/');
+      if (code) {
+        if (+code === 401) {
+          dispatch(logOut());
+          navigate('/login', { replace: true });
+        } else {
+          navigate('/not-found-board', { replace: true });
+        }
+      }
+    }
+  }, [rejectMsg]);
 
   const onDragEndTask = (result: DropResult) => {
     const { destination, source, draggableId } = result;

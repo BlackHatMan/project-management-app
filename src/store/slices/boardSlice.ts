@@ -130,7 +130,11 @@ export const getSingleBoard = createAsyncThunk<IBoard, string, { rejectValue: st
 export const boardSlice = createSlice({
   name: 'board',
   initialState,
-  reducers: {},
+  reducers: {
+    clearRejectMsg: (state) => {
+      state.rejectMsg = '';
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAllBoards.fulfilled, (state, action) => {
@@ -215,6 +219,8 @@ export const boardSlice = createSlice({
       });
   },
 });
+
+export const { clearRejectMsg } = boardSlice.actions;
 
 export default boardSlice.reducer;
 
