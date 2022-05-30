@@ -1,0 +1,95 @@
+{
+  "HEADER": {
+    "WELCOME": "Welcome",
+    "BOARDS": "Boards",
+    "EDIT_PROFILE": "Profile",
+    "OPEN_SETTINGS": "Profile"
+  },
+  "AUTH": {
+    "LOG_IN": "Sidn in",
+    "SIGN_UP": "Sign up"
+  },
+  "LANGUAGES": {
+    "EN": "En",
+    "RU": "Ru",
+    "UA": "Ua"
+  },
+  "WELCOME": {
+    "TITLE": "We help to organize your work!",
+    "SUBTITLE": "Welcome to project management application.",
+    "INFO": "We create for you a convenient way to plan your business.",
+    "DESCR": "Track all the tasks and miss nothing!"
+  },
+  "LOGIN": {
+    "HEADER": "Sign In",
+    "ACCOUNT_ABSENCE_MSG": "Don't have an account? Sign Up"
+  },
+  "SIGNUP": {
+    "NAME": "Name",
+    "HEADER": "Sign Up",
+    "ACCOUNT_EXIST_MSG": "Do you have an account? Sign In.",
+    "DELETE": "Delete user"
+  },
+  "FORM": {
+    "EMAIL": "Email Address",
+    "REQUIRE_MSG": "this field is required",
+    "INCORRECT_EMAIL": "incorrect email",
+    "PASSWORD": "Password",
+    "PASSWORD_LIMIT": "Your password must be at least 6 characters long",
+    "NAME_LIMIT": "Your name must be at least 3 characters long"
+  },
+  "BOARD": {
+    "BOARD": "Board:",
+    "NEW_BOARD": "+ Create new board",
+    "CREATE": "Create new board",
+    "NAME": "Board name",
+    "CREATE_BTN": "Create board",
+    "CHANGE_NAME": "Change name",
+    "DELETE": "Delete board"
+  },
+  "COLUMN": {
+    "NEW_COLUMN": "+ new column",
+    "CREATE_COLUMN_BTN": "Create column",
+    "CREATE_COLUMN_HEADER": "Create new column",
+    "DELETE_BTN": "Delete column"
+  },
+  "TASK": {
+    "ADD_BTN": "Add new task",
+    "CREATE_TASK_HEADER": "Create new task",
+    "CONFIRM_DEL": "Are you sure you want to delete?",
+    "YES": "Yes",
+    "CREATE": "Create task",
+    "EDIT": "Edit task",
+    "DELETE": "Delete task",
+    "ADD_FILE": "+ Add File",
+    "CREATE_BY": "created by user:",
+    "FILENAME": "Filename",
+    "SIZE": "Size"
+  },
+  "DEVELOPERS": {
+    "TEAM": "Out team",
+    "TEAM_DESCR": "We are a team of beginner developers who are passionate about their work. We tend to create functional and beautiful applications.",
+    "VICTOR": "Victor",
+    "EVGENIY": "Evgeniy",
+    "OLGA": "Olga",
+    "TEAM_L": "Team Lead",
+    "DEVELOPER": "Developer"
+  },
+  "FILTER": {
+    "SELECT": "Select users",
+    "NO_TASKS": "No tasks",
+    "SEARCH": "Search…",
+    "UNKNOWN_USER": "Unknown user"
+  },
+  "TITLE": "Title",
+  "DESCR": "Description",
+  "CANCEL_BTN": "Cancel",
+  "UPDATE_BTN": "Update",
+  "EDIT_PROFILE": "Edit profile",
+  "NOT_FOUND_PAGE": "Page not found. No match in url",
+  "BACK_TO_MAIN": "Back to main page",
+  "BACK_TO_BOARDS": "Back to boards",
+  "ERROR_BOUNDARY_MSG": "Something went wrong...",
+  "ERROR_RESPONSE": "bad server response, error code:",
+  "GO_TO_MAIN": "Go to Main Page"
+}

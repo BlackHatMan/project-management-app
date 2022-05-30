@@ -1,0 +1,33 @@
+.awesomeLink {
+    color: #fff !important;
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    padding: 0 15px;
+    margin: 0 var(--space, 2px);
+    transition: margin 0.25s;
+}
+
+.svgLink {
+    width: 6.5rem;
+    height: 3rem;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 0.5rem) translateZ(0);
+    fill: none;
+    stroke: var(--stroke, var(--line));
+    stroke-linecap: round;
+    stroke-width: 2px;
+    stroke-dasharray: var(--offset, 69px) 278px;
+    stroke-dashoffset: 361px;
+    transition: stroke 0.25s ease var(--stroke-delay, 0s), stroke-dasharray 0.35s;
+}
+
+.awesomeLink:hover {
+    --space: 2px;
+    --stroke: #1de7bb;
+    --stroke-delay: 0.1s;
+    --offset: 180px;
+}
