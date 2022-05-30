@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Backdrop, Button, CircularProgress, Container, Stack, useMediaQuery } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { getSingleBoard } from '../../store/slices/boardSlice';
 import { updateColumn, updateDrag } from '../../store/slices/columnReducer';
-import { logOut } from '../../store/slices/authSlice';
+// import { logOut } from '../../store/slices/authSlice';
 import NewColumn from '../NewColumn';
 import ModalWindow from '../ModalWindow';
 import Column from '../Column';
@@ -24,14 +24,14 @@ export type IFilters = {
 const SingleBoardPage = () => {
   const [isOpenModalAddNewColumn, setIsOpenModalAddNewColumn] = useState(false);
   const {
-    rejectMsg,
+    // rejectMsg,
     pending,
     singleBoard: { columns, title },
   } = useAppSelector((state) => state.boards);
   const [filters, setFilters] = useState<IFilters>({ searchText: '', usersId: [] });
   const dispatch = useAppDispatch();
   const { boardId } = useParams();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const matches = useMediaQuery('(max-width:600px)');
   const usersIdCreatedTasks: string[] = [];
 
@@ -55,19 +55,19 @@ const SingleBoardPage = () => {
 
   const { t } = useTranslation();
 
-  useEffect(() => {
-    if (rejectMsg) {
-      const [code] = rejectMsg.split('/');
-      if (code) {
-        if (+code === 401) {
-          dispatch(logOut());
-          navigate('/signin', { replace: true });
-        } else {
-          navigate('/not-found-board', { replace: true });
-        }
-      }
-    }
-  }, [rejectMsg, dispatch, navigate]);
+  // useEffect(() => {
+  //   if (rejectMsg) {
+  //     const [code] = rejectMsg.split('/');
+  //     if (code) {
+  //       if (+code === 401) {
+  //         dispatch(logOut());
+  //         navigate('/signin', { replace: true });
+  //       } else {
+  //         navigate('/not-found-board', { replace: true });
+  //       }
+  //     }
+  //   }
+  // }, [rejectMsg, dispatch, navigate]);
 
   const onDragEndTask = (result: DropResult) => {
     const { destination, source, draggableId } = result;

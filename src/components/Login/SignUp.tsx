@@ -15,7 +15,7 @@ import { LoadingButton } from '@mui/lab';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import SendIcon from '@mui/icons-material/Send';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { createToken, createUser } from '../../store/slices/authSlice';
+import { createUser } from '../../store/slices/authSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { localStorageSetUser, localStorageSetUserToken } from '../../utils/localStorage';
@@ -30,7 +30,7 @@ const SignUp = () => {
 
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
-  const { id, name, token, rejectMsg, pending, isLoggedIn } = useAppSelector((state) => state.auth);
+  const { id, name, token, pending, isLoggedIn } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -48,10 +48,6 @@ const SignUp = () => {
         name: data.name,
       })
     );
-    if (rejectMsg) {
-      await dispatch(createToken({ login: data.email, password: data.password }));
-      navigate('/boards');
-    }
   };
 
   useEffect(() => {

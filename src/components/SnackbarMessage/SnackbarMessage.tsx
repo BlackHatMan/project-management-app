@@ -3,7 +3,8 @@ import { Stack, Snackbar } from '@mui/material';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux.hooks';
 import { useTranslation } from 'react-i18next';
-import { clearRejectMsg } from '../../store/slices/boardSlice';
+import { clearRejectMsg as clearRMsgBoards } from '../../store/slices/boardSlice';
+import { clearRejectMsg as clearRMsgAuth } from '../../store/slices/authSlice';
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -27,7 +28,8 @@ const SnackbarMessage = () => {
       return;
     }
     setOpen(false);
-    dispatch(clearRejectMsg());
+    dispatch(clearRMsgBoards());
+    dispatch(clearRMsgAuth());
   };
 
   const incomeMessage = rejectMsgAuth || rejectMsgBoards;

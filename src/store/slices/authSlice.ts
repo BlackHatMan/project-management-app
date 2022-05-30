@@ -37,13 +37,11 @@ export const createUser = createAsyncThunk(
 
       if (!response.ok) {
         const resp = await response.json();
-        throw new Error(
-          `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-        );
+        return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
       }
-
       const result: ICreateUserResponse = await response.json();
       dispatch(setUser(result));
+      dispatch(createToken({ login: data.login, password: data.password }));
     } catch (err) {
       const msg = (err as Error).message;
       return rejectWithValue(msg);
@@ -65,9 +63,7 @@ export const createToken = createAsyncThunk(
 
       if (!response.ok) {
         const resp = await response.json();
-        throw new Error(
-          `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-        );
+        return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
       }
 
       const result: ICreateTokenResponse = await response.json();
@@ -94,9 +90,7 @@ export const getSingleUser = createAsyncThunk(
 
       if (!response.ok) {
         const resp = await response.json();
-        throw new Error(
-          `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-        );
+        return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
       }
       const singleUser: UserResponse = await response.json();
       dispatch(setUser(singleUser));
@@ -122,9 +116,7 @@ export const deleteCurrentUser = createAsyncThunk(
 
       if (!singleUserResponse.ok) {
         const resp = await singleUserResponse.json();
-        throw new Error(
-          `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-        );
+        return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
       }
     } catch (err) {
       const msg = (err as Error).message;
@@ -151,9 +143,7 @@ export const updateUser = createAsyncThunk(
     if (!response.ok) {
       const resp = await response.json();
       if (response.status === 401) dispatch(logOut());
-      return rejectWithValue(
-        `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-      );
+      return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
     }
     const singleUser: UserResponse = await response.json();
     dispatch(setUser(singleUser));
@@ -182,6 +172,7 @@ export const authSlice = createSlice({
       state.login = action.payload.login;
       state.name = action.payload.name;
       state.pending = false;
+      state.isLoggedIn = true;
     },
     logOut: (state) => {
       state.isLoggedIn = false;
@@ -193,6 +184,9 @@ export const authSlice = createSlice({
     setToken: (state, action: PayloadAction<ICreateTokenResponse>) => {
       state.token = action.payload.token;
       state.isLoggedIn = true;
+    },
+    clearRejectMsg: (state) => {
+      state.rejectMsg = '';
     },
   },
   extraReducers: {
@@ -209,7 +203,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setUser, logOut, setToken } = authSlice.actions;
+export const { setUser, logOut, setToken, clearRejectMsg } = authSlice.actions;
 
 export default authSlice.reducer;
 
