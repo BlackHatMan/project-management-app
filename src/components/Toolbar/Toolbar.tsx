@@ -52,7 +52,8 @@ const Toolbar = ({ filters, setFilters, usersIdCreatedTasks }: IProps) => {
   }));
 
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'grey',
+    color: '#6585F3',
+    fontWeight: 700,
     '& .MuiInputBase-input': {
       padding: theme.spacing(1, 1, 1, 0),
       paddingLeft: `calc(1em + ${theme.spacing(4)})`,
@@ -62,13 +63,16 @@ const Toolbar = ({ filters, setFilters, usersIdCreatedTasks }: IProps) => {
 
   const WhiteBorderTextField = styled(OutlinedInput)(({ theme }) => ({
     '& .MuiSelect-select': {
-      padding: theme.spacing(1, 1, 1, 1),
+      padding: theme.spacing(1.2, 1, 1.2, 1),
       transition: theme.transitions.create('width'),
     },
-    color: 'grey',
+    color: '#6585F3',
+    fontWeight: 700,
     '& fieldset': {
       borderColor: '#3f51b5',
+      backgroundColor: 'rgba(213, 217, 233, .8)',
       borderWidth: '2px',
+      zIndex: -1,
     },
     '&:hover fieldset': {
       borderWidth: '1px',
@@ -176,8 +180,26 @@ const Toolbar = ({ filters, setFilters, usersIdCreatedTasks }: IProps) => {
           </Select>
         </FormControl>
       </Grid>
-      <Grid item lg={3} md={3} sm={6} xs={10} sx={{ width: '100%' }}>
-        <Search sx={{ border: '2px solid #3f51b5', mx: 1 }}>
+      <Grid
+        item
+        lg={3}
+        md={3}
+        sm={6}
+        xs={10}
+        sx={{
+          width: '100%',
+        }}
+      >
+        <Search
+          sx={{
+            border: '2px solid #3f51b5',
+            mx: 1,
+            backgroundColor: 'rgba(213, 217, 233, .7)',
+            '&:hover': {
+              backgroundColor: 'rgba(213, 217, 233, .9)',
+            },
+          }}
+        >
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
