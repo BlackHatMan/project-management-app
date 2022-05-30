@@ -67,8 +67,8 @@ export const createToken = createAsyncThunk(
       }
 
       const result: ICreateTokenResponse = await response.json();
-      dispatch(getSingleUser({ id: parseJwt(result.token).userId as string, token: result.token }));
       dispatch(setToken(result));
+      dispatch(getSingleUser({ id: parseJwt(result.token).userId as string, token: result.token }));
       localStorageSetUserToken(result.token);
     } catch (err) {
       const msg = (err as Error).message;
