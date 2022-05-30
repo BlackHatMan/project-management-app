@@ -37,9 +37,7 @@ export const createUser = createAsyncThunk(
 
       if (!response.ok) {
         const resp = await response.json();
-        throw new Error(
-          `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-        );
+        return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
       }
 
       const result: ICreateUserResponse = await response.json();
@@ -66,9 +64,7 @@ export const createToken = createAsyncThunk(
 
       if (!response.ok) {
         const resp = await response.json();
-        throw new Error(
-          `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-        );
+        return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
       }
 
       const result: ICreateTokenResponse = await response.json();
@@ -95,9 +91,7 @@ export const getSingleUser = createAsyncThunk(
 
       if (!response.ok) {
         const resp = await response.json();
-        throw new Error(
-          `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-        );
+        return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
       }
       const singleUser: UserResponse = await response.json();
       dispatch(setUser(singleUser));
@@ -123,9 +117,7 @@ export const deleteCurrentUser = createAsyncThunk(
 
       if (!singleUserResponse.ok) {
         const resp = await singleUserResponse.json();
-        throw new Error(
-          `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-        );
+        return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
       }
     } catch (err) {
       const msg = (err as Error).message;
@@ -152,9 +144,7 @@ export const updateUser = createAsyncThunk(
     if (!response.ok) {
       const resp = await response.json();
       if (response.status === 401) dispatch(logOut());
-      return rejectWithValue(
-        `bad server response, error code: ${resp?.statusCode} message: ${resp?.message}`
-      );
+      return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
     }
     const singleUser: UserResponse = await response.json();
     dispatch(setUser(singleUser));
