@@ -136,6 +136,9 @@ export const boardSlice = createSlice({
     clearRejectMsg: (state) => {
       state.rejectMsg = '';
     },
+    clearSingleBoard: (state) => {
+      state.singleBoard = { id: '', title: '', columns: [] };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -220,7 +223,7 @@ export const boardSlice = createSlice({
   },
 });
 
-export const { clearRejectMsg } = boardSlice.actions;
+export const { clearRejectMsg, clearSingleBoard } = boardSlice.actions;
 
 export default boardSlice.reducer;
 

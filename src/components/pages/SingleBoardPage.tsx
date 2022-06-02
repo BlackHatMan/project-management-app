@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button, Container, Stack, useMediaQuery } from '@mui/material';
+import { Backdrop, Button, CircularProgress, Container, Stack, useMediaQuery } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
-import { getSingleBoard } from '../../store/slices/boardSlice';
+import { clearSingleBoard, getSingleBoard } from '../../store/slices/boardSlice';
 import { updateColumn, updateDrag } from '../../store/slices/columnReducer';
 import { logOut } from '../../store/slices/authSlice';
 import NewColumn from '../NewColumn';
@@ -25,6 +25,7 @@ const SingleBoardPage = () => {
   const [isOpenModalAddNewColumn, setIsOpenModalAddNewColumn] = useState(false);
   const {
     rejectMsg,
+    pending,
     singleBoard: { columns, title },
   } = useAppSelector((state) => state.boards);
   const [filters, setFilters] = useState<IFilters>({ searchText: '', usersId: [] });
@@ -42,10 +43,13 @@ const SingleBoardPage = () => {
     });
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (boardId) {
       dispatch(getSingleBoard(boardId));
     }
+    return () => {
+      dispatch(clearSingleBoard());
+    };
   }, [boardId, dispatch]);
 
   useEffect(() => {
@@ -312,9 +316,9 @@ const SingleBoardPage = () => {
       <ModalWindow open={isOpenModalAddNewColumn} onClose={() => setIsOpenModalAddNewColumn(false)}>
         <NewColumn onClose={() => setIsOpenModalAddNewColumn(false)} />
       </ModalWindow>
-      {/* <Backdrop sx={{ color: '#fff', zIndex: 100 }} open={pending}>
+      <Backdrop sx={{ color: '#fff', zIndex: 100 }} open={pending}>
         <CircularProgress color="inherit" />
-      </Backdrop> */}
+      </Backdrop>
     </Container>
   );
 };
