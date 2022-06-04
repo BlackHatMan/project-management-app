@@ -217,7 +217,9 @@ const SingleBoardPage = () => {
         height: 'calc(100vh - 127px)',
         p: 0,
         pt: 'calc(71px)',
-        background: `url('/pictures/background${getImageNumber(title)}.webp')`,
+        background: `url('/project-management-app/pictures/background${getImageNumber(
+          title
+        )}.webp')`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
