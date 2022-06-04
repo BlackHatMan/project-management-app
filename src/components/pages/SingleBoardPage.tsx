@@ -1,20 +1,19 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Backdrop, Button, CircularProgress, Container, Stack, useMediaQuery } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
-import { clearSingleBoard, getSingleBoard } from '../../store/slices/boardSlice';
+import { useTranslation } from 'react-i18next';
+import { Button, Container, Stack, useMediaQuery } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
+import { clearSingleBoard } from '../../store/slices/boardSlice';
 import { updateColumn, updateDrag } from '../../store/slices/columnReducer';
 import { logOut } from '../../store/slices/authReduser';
+import { updateDragTask, updDragTask, moveTaskOnServer } from '../../store/slices/taskResucer';
 import NewColumn from '../NewColumn';
 import ModalWindow from '../ModalWindow';
 import Column from '../Column';
-import { IColumnsResp } from '../../utils/types/board';
-import { getAllUsers } from '../../store/slices/userReducer';
-import { useTranslation } from 'react-i18next';
-import { updateDragTask, updDragTask, moveTaskOnServer } from '../../store/slices/taskResucer';
-import { ITask } from '../../types/board';
 import Toolbar from '../Toolbar';
+import { ITask } from '../../types/board';
+import { IColumnsResp } from '../../utils/types/board';
 
 export type IFilters = {
   searchText: string;
@@ -25,14 +24,13 @@ const SingleBoardPage = () => {
   const [isOpenModalAddNewColumn, setIsOpenModalAddNewColumn] = useState(false);
   const {
     rejectMsg,
-    pending,
-    singleBoard: { columns, title },
+    singleBoard: { columns, title, id: boardId },
   } = useAppSelector((state) => state.boards);
   const [filters, setFilters] = useState<IFilters>({ searchText: '', usersId: [] });
   const dispatch = useAppDispatch();
-  const { boardId } = useParams();
   const navigate = useNavigate();
   const matches = useMediaQuery('(max-width:600px)');
+  const { t } = useTranslation();
   const usersIdCreatedTasks: string[] = [];
 
   columns.forEach((column) => {
@@ -43,20 +41,11 @@ const SingleBoardPage = () => {
     });
   });
 
-  useLayoutEffect(() => {
-    if (boardId) {
-      dispatch(getSingleBoard(boardId));
-    }
+  useEffect(() => {
     return () => {
       dispatch(clearSingleBoard());
     };
-  }, [boardId, dispatch]);
-
-  useEffect(() => {
-    dispatch(getAllUsers());
   }, [dispatch]);
-
-  const { t } = useTranslation();
 
   useEffect(() => {
     if (rejectMsg) {
@@ -298,7 +287,6 @@ const SingleBoardPage = () => {
                     maxWidth: '400px',
                     minWidth: '170px',
                     padding: 2,
-                    // pb: 1,
                     ml: 2,
                     mr: 2,
                     backgroundColor: 'rgba(213, 217, 233, .7)',
@@ -316,9 +304,6 @@ const SingleBoardPage = () => {
       <ModalWindow open={isOpenModalAddNewColumn} onClose={() => setIsOpenModalAddNewColumn(false)}>
         <NewColumn onClose={() => setIsOpenModalAddNewColumn(false)} />
       </ModalWindow>
-      <Backdrop sx={{ color: '#fff', zIndex: 100 }} open={pending}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
     </Container>
   );
 };

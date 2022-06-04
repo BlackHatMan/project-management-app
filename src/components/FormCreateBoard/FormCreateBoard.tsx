@@ -90,6 +90,10 @@ const FormCreateBoard: FC<{ onClose: () => void; handlerCreateBoard: (title: str
               value: 3,
               message: `${t('FORM.NAME_LIMIT')}`,
             },
+            maxLength: {
+              value: 20,
+              message: 'max length 20 letters',
+            },
           })}
         />
         <Typography variant="body1" sx={{ color: 'red' }}>

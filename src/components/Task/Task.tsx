@@ -20,6 +20,7 @@ const Task = ({ task, index }: { task: ITask; index: number }) => {
     color: theme.palette.text.primary,
     height: 60,
     width: '100%',
+    overflow: 'auto',
     lineHeight: '60px',
     borderRadius: theme.shape.borderRadius,
     display: 'flex',

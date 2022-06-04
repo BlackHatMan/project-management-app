@@ -12,7 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import React, { FC } from 'react';
 import dataPictures from '../../dataPictures';
 import { useNavigate } from 'react-router-dom';
-import { updateBoard } from '../../store/slices/boardSlice';
+import { getSingleBoard, updateBoard } from '../../store/slices/boardSlice';
 import ConformModal from '../ConformModal';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -20,6 +20,7 @@ import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../hooks/redux.hooks';
 import { IBoardPreview } from '../../types/board';
 import { useTranslation } from 'react-i18next';
+import { getAllUsers } from '../../store/slices/userReducer';
 
 const BoardPreview: FC<{
   board: IBoardPreview;
@@ -42,6 +43,11 @@ const BoardPreview: FC<{
     dispatch(updateBoard({ title: newTitle, id: board.id }));
     setIsEdit(false);
   };
+  const handlerBoard = async () => {
+    dispatch(getAllUsers());
+    await dispatch(getSingleBoard(board.id));
+    navigate(`/boards/${board.id}`);
+  };
 
   return (
     <Card
@@ -57,9 +63,7 @@ const BoardPreview: FC<{
       }}
     >
       <CardMedia
-        onClick={() => {
-          navigate(`/boards/${board.id}`);
-        }}
+        onClick={handlerBoard}
         component="img"
         height="170"
         image={dataPictures[+board.title?.slice(0, 2)]}
@@ -105,6 +109,10 @@ const BoardPreview: FC<{
                 }}
                 {...register('title', {
                   required: { value: true, message: 'this field is required' },
+                  maxLength: {
+                    value: 20,
+                    message: 'max length 20 letters',
+                  },
                 })}
               />
               <Box>
