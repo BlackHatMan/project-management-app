@@ -1,11 +1,11 @@
-import { UserResponse } from './auth';
+import { IUserResponse } from '../store/slices/authSlice';
 
 export interface boardState {
   boards: IBoardPreview[];
   rejectMsg: string;
   pending: boolean;
   singleBoard: IBoard;
-  usersAll: UserResponse[];
+  usersAll: IUserResponse[];
 }
 
 export type IBoardPreview = {

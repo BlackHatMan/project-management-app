@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk, AnyAction } from '@reduxjs/toolkit';
 import {
   localStorageGetUser,
   localStorageClear,
@@ -7,7 +7,6 @@ import {
   localStorageGetUserToken,
 } from '../../utils/localStorage';
 import { UserInfo } from '../../types/types';
-import { UserResponse } from '../../types/auth';
 import { BASE_URL } from '../../constants/constants';
 import { parseJwt } from '../../utils/parseJWT';
 
@@ -18,88 +17,83 @@ const initialState: AuthState = {
   isLoggedIn: !!initialUserToken,
   token: initialUserToken || '',
   pending: false,
-  rejectMsg: '',
+  rejectAuthMsg: '',
   id: initialUser?.id || '',
   name: initialUser?.name || '',
+  successMsg: '',
 };
 
 export const createUser = createAsyncThunk(
   'auth/createAsyncUser',
-  async (data: ICreateUser, { dispatch, rejectWithValue }) => {
-    try {
-      const response = await fetch(`${BASE_URL}signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+  async (data: ICreateUser, { rejectWithValue }) => {
+    const response = await fetch(`${BASE_URL}signup`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
 
-      if (!response.ok) {
-        const resp = await response.json();
-        return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
-      }
-
-      const result: ICreateUserResponse = await response.json();
-      dispatch(setUser(result));
-      return result;
-    } catch (err) {
-      const msg = (err as Error).message;
-      return rejectWithValue(msg);
+    if (!response.ok) {
+      const resp = await response.json();
+      return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
     }
+
+    return (await response.json()) as ICreateUserResponse;
   }
 );
 
-export const createToken = createAsyncThunk(
+export const createToken = createAsyncThunk<IUserResponse, ICreateToken, { rejectValue: string }>(
   'auth/createToken',
-  async (data: ICreateToken, { dispatch, rejectWithValue }) => {
-    try {
-      const response = await fetch(`${BASE_URL}signin`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        const resp = await response.json();
-        return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
-      }
-
-      const result: ICreateTokenResponse = await response.json();
-      dispatch(getSingleUser({ id: parseJwt(result.token).userId as string, token: result.token }));
-      dispatch(setToken(result));
-      localStorageSetUserToken(result.token);
-    } catch (err) {
-      const msg = (err as Error).message;
-      return rejectWithValue(msg);
+  async (data, { rejectWithValue }) => {
+    const respToken = await fetch(`${BASE_URL}signin`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    if (!respToken.ok) {
+      const resp = await respToken.json();
+      return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
     }
+    const resp: responseSingIn = await respToken.json();
+    const id = parseJwt(resp.token).userId;
+    localStorageSetUserToken(resp.token);
+
+    /* get Name */
+
+    const responseName = await fetch(`${BASE_URL}users/${id}`, {
+      headers: {
+        Authorization: `Bearer ${resp.token}`,
+      },
+    });
+    if (!responseName.ok) {
+      const resp = await responseName.json();
+      return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
+    }
+    const result: IUserResponse = await responseName.json();
+    localStorageSetUser({ id: result.id, name: result.name });
+    return result;
   }
 );
 
-export const getSingleUser = createAsyncThunk(
+export const getSingleUser = createAsyncThunk<IUserResponse, string, { rejectValue: string }>(
   'auth/getSingleUser',
-  async (data: ISingleUser, { dispatch, rejectWithValue }) => {
-    try {
-      const response = await fetch(`${BASE_URL}users/${data.id}`, {
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${data.token}`,
-        },
-      });
+  async (id, { rejectWithValue }) => {
+    const token = localStorageGetUserToken();
+    const response = await fetch(`${BASE_URL}users/${id}`, {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      if (!response.ok) {
-        const resp = await response.json();
-        return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
-      }
-      const singleUser: UserResponse = await response.json();
-      dispatch(setUser(singleUser));
-      localStorageSetUser({ id: singleUser.id, name: singleUser.name });
-    } catch (err) {
-      const msg = (err as Error).message;
-      return rejectWithValue(msg);
+    if (!response.ok) {
+      const resp = await response.json();
+      return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
     }
+    return (await response.json()) as IUserResponse;
   }
 );
 
@@ -107,22 +101,18 @@ export const deleteCurrentUser = createAsyncThunk(
   'auth/deleteUser',
   async (id: string, { rejectWithValue }) => {
     const token = localStorageGetUserToken();
-    try {
-      const singleUserResponse = await fetch(`${BASE_URL}users/${id}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    const singleUserResponse = await fetch(`${BASE_URL}users/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      if (!singleUserResponse.ok) {
-        const resp = await singleUserResponse.json();
-        return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
-      }
-    } catch (err) {
-      const msg = (err as Error).message;
-      return rejectWithValue(msg);
+    if (!singleUserResponse.ok) {
+      const resp = await singleUserResponse.json();
+      return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
     }
+    return 'user successful deleted';
   }
 );
 
@@ -146,61 +136,77 @@ export const updateUser = createAsyncThunk(
       if (response.status === 401) dispatch(logOut());
       return rejectWithValue(`${resp?.statusCode}/${resp.message}`);
     }
-    const singleUser: UserResponse = await response.json();
-    dispatch(setUser(singleUser));
+    const singleUser: IUserResponse = await response.json();
     localStorageSetUser({ id: singleUser.id, name: singleUser.name });
+    return singleUser;
   }
 );
-
-const pending = (state: AuthState) => {
-  state.pending = true;
-  state.rejectMsg = '';
-};
-const reject = (state: AuthState, action: PayloadAction<string>) => {
-  state.pending = false;
-  state.rejectMsg = action.payload;
-};
-const fulfilled = (state: AuthState) => {
-  state.pending = false;
-};
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<ICreateUserResponse>) => {
-      state.id = action.payload.id;
-      state.login = action.payload.login;
-      state.name = action.payload.name;
-      state.pending = false;
-    },
     logOut: (state) => {
       state.isLoggedIn = false;
       state.id = '';
       state.name = '';
       state.token = '';
+      state.login = '';
       localStorageClear();
     },
-    setToken: (state, action: PayloadAction<ICreateTokenResponse>) => {
-      state.token = action.payload.token;
-      state.isLoggedIn = true;
+    clearAuthMsg: (state) => {
+      state.successMsg = '';
+      state.rejectAuthMsg = '';
     },
   },
-  extraReducers: {
-    [createUser.pending.type]: pending,
-    [createUser.rejected.type]: reject,
-    [createUser.fulfilled.type]: fulfilled,
-    [createToken.pending.type]: pending,
-    [createToken.rejected.type]: reject,
-    [getSingleUser.fulfilled.type]: fulfilled,
-    [getSingleUser.pending.type]: pending,
-    [getSingleUser.rejected.type]: reject,
-    [getSingleUser.fulfilled.type]: fulfilled,
-    [updateUser.pending.type]: pending,
+  extraReducers: (builder) => {
+    builder
+      .addCase(createUser.fulfilled, (state, { payload }) => {
+        state.id = payload.id;
+        state.login = payload.login;
+        state.name = payload.name;
+        state.pending = false;
+      })
+      .addCase(getSingleUser.fulfilled, (state, { payload }) => {
+        state.id = payload.id;
+        state.login = payload.login;
+        state.name = payload.name;
+      })
+      .addCase(updateUser.fulfilled, (state, { payload }) => {
+        state.id = payload.id;
+        state.login = payload.login;
+        state.name = payload.name;
+        state.successMsg = 'login successfully update';
+        state.pending = false;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.pending = true;
+      })
+      .addCase(createToken.fulfilled, (state, { payload }) => {
+        state.name = payload.name;
+        state.login = payload.login;
+        state.id = payload.id;
+        state.isLoggedIn = true;
+        state.pending = false;
+      })
+      .addCase(deleteCurrentUser.fulfilled, (state, { payload }) => {
+        state.successMsg = payload;
+      })
+      .addCase(createToken.pending, (state) => {
+        state.pending = true;
+      })
+      .addMatcher(isError, (state, action: PayloadAction<string>) => {
+        state.pending = false;
+        state.rejectAuthMsg = action.payload;
+      });
   },
 });
 
-export const { setUser, logOut, setToken } = authSlice.actions;
+function isError(action: AnyAction) {
+  return action.type.endsWith('rejected');
+}
+
+export const { logOut, clearAuthMsg } = authSlice.actions;
 
 export default authSlice.reducer;
 
@@ -208,10 +214,11 @@ interface AuthState {
   isLoggedIn: boolean;
   token: string;
   pending: boolean;
-  rejectMsg: string | null;
+  rejectAuthMsg: string | null;
   id: string;
   login?: string;
   name: string;
+  successMsg: string;
 }
 
 type ICreateUser = {
@@ -229,11 +236,12 @@ type ICreateUserResponse = {
   name: string;
   login: string;
 };
-type ICreateTokenResponse = {
-  token: string;
-};
 
-type ISingleUser = {
-  id: string;
+type responseSingIn = {
   token: string;
 };
+export interface IUserResponse {
+  id: string;
+  login: string;
+  name: string;
+}

@@ -16,11 +16,15 @@ import { useTranslation, TFuncKey } from 'react-i18next';
 import { LOGO } from '../../constants/constants';
 import LoginMenu from './LoginMenu';
 import AwesomeLink from './AwesomeLink';
+import { getSingleUser } from '../../store/slices/authSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
 
 const Header = () => {
   const { t } = useTranslation();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [isSticky, setIsSticky] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const { login, id, isLoggedIn } = useAppSelector((state) => state.auth);
 
   const setStickyHeader = () => {
     if (window.scrollY > 90) {
@@ -37,6 +41,12 @@ const Header = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (isLoggedIn && !login) {
+      dispatch(getSingleUser(id));
+    }
+  }, [isLoggedIn, dispatch, id, login]);
+
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
@@ -45,11 +55,13 @@ const Header = () => {
     setAnchorElNav(event.currentTarget);
   };
 
-  const pages: Array<{ page: TFuncKey; path: string }> = [
-    { page: 'HEADER.WELCOME', path: '/' },
-    { page: 'HEADER.BOARDS', path: '/boards' },
-    { page: 'HEADER.EDIT_PROFILE', path: '/edit-profile' },
-  ];
+  const pages: Array<{ page: TFuncKey; path: string }> = isLoggedIn
+    ? [
+        { page: 'HEADER.WELCOME', path: '/' },
+        { page: 'HEADER.BOARDS', path: '/boards' },
+        { page: 'HEADER.EDIT_PROFILE', path: '/edit-profile' },
+      ]
+    : [{ page: 'HEADER.WELCOME', path: '/' }];
 
   return (
     <AppBar

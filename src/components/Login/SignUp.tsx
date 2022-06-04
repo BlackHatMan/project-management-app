@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   InputAdornment,
   IconButton,
@@ -17,9 +19,6 @@ import SendIcon from '@mui/icons-material/Send';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createToken, createUser } from '../../store/slices/authSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { localStorageSetUser, localStorageSetUserToken } from '../../utils/localStorage';
-import { useTranslation } from 'react-i18next';
 
 const SignUp = () => {
   const {
@@ -30,7 +29,7 @@ const SignUp = () => {
 
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
-  const { id, name, token, pending, isLoggedIn } = useAppSelector((state) => state.auth);
+  const { pending, isLoggedIn } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -54,13 +53,6 @@ const SignUp = () => {
       navigate('/boards');
     }
   };
-
-  useEffect(() => {
-    return () => {
-      localStorageSetUser({ id: id, name: name });
-      localStorageSetUserToken(token);
-    };
-  }, [id, name, token]);
 
   return (
     <Container maxWidth="xs">

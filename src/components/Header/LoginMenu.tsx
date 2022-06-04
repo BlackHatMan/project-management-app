@@ -35,23 +35,7 @@ const LoginMenu = () => {
           />
         )}
       </IconButton>
-      {isLoggedIn ? (
-        <Button
-          onClick={() => navigate('/boards')}
-          variant="contained"
-          sx={{
-            ml: 1,
-            backgroundColor: '#5c6bc0',
-            color: 'white',
-            '@media only screen and (max-width: 450px)': {
-              p: 0,
-              m: 0.5,
-            },
-          }}
-        >
-          {t('GO_TO_MAIN')}
-        </Button>
-      ) : (
+      {!isLoggedIn && (
         <>
           <Button
             onClick={() => navigate('/signin')}

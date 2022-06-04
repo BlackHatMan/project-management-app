@@ -3,37 +3,6 @@ import { boardState, IColumn } from '../../types/board';
 import { BASE_URL } from '../../constants/constants';
 import { localStorageGetUserToken } from '../../utils/localStorage';
 
-type createColumn = {
-  boardId: string;
-  title: string;
-  order: number;
-};
-type updateColumn = {
-  boardId: string;
-  columnId: string;
-  title: string;
-  order: number;
-};
-
-type responseCreateColumn = {
-  id: string;
-  title: string;
-  order: number;
-};
-
-type deleteColumn = {
-  boardId: string;
-  columnId: string;
-  order: number;
-};
-
-type updDragColumn = {
-  draggableColumn: IColumn;
-  oldOrder: number;
-  newOrder: number;
-  columns: IColumn[];
-};
-
 export const createColumn = createAsyncThunk<
   responseCreateColumn,
   createColumn,
@@ -191,4 +160,35 @@ const updateSyncOrderOnServer = async (
     acc.push(data);
   }
   return acc;
+};
+
+type createColumn = {
+  boardId: string;
+  title: string;
+  order: number;
+};
+type updateColumn = {
+  boardId: string;
+  columnId: string;
+  title: string;
+  order: number;
+};
+
+type responseCreateColumn = {
+  id: string;
+  title: string;
+  order: number;
+};
+
+type deleteColumn = {
+  boardId: string;
+  columnId: string;
+  order: number;
+};
+
+type updDragColumn = {
+  draggableColumn: IColumn;
+  oldOrder: number;
+  newOrder: number;
+  columns: IColumn[];
 };

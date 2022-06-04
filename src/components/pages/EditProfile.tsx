@@ -1,54 +1,40 @@
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Box,
   Button,
   Container,
-  CssBaseline,
   IconButton,
   InputAdornment,
   TextField,
   Typography,
 } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
-import { useForm } from 'react-hook-form';
-import { propsSubmitSignUp } from '../Login/SignUp';
-import { useEffect, useState } from 'react';
-import {
-  localStorageGetUser,
-  localStorageSetUser,
-  localStorageSetUserToken,
-} from '../../utils/localStorage';
 import SendIcon from '@mui/icons-material/Send';
-import { deleteCurrentUser, getSingleUser, logOut, updateUser } from '../../store/slices/authSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
 import ConformModal from '../ConformModal';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { propsSubmitSignUp } from '../Login/SignUp';
+import { deleteCurrentUser, logOut, updateUser } from '../../store/slices/authSlice';
 
 const EditProfile = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<propsSubmitSignUp>({ mode: 'onSubmit' });
-
-  const [showPassword, setShowPassword] = useState(false);
-  const [isOpenConformModal, setIsOpenConformModal] = useState(false);
-  const { id, name, token, pending, rejectMsg, login } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const [showPassword, setShowPassword] = useState(false);
+  const [isOpenConformModal, setIsOpenConformModal] = useState(false);
+  const { id, name, pending, login } = useAppSelector((state) => state.auth);
 
-  const onSubmit = async (data: propsSubmitSignUp) => {
-    await dispatch(
+  const onSubmit = (data: propsSubmitSignUp) => {
+    dispatch(
       updateUser({
         login: data.email,
         password: data.password,
         name: data.name,
       })
     );
-    if (!rejectMsg) reset();
   };
 
   const deleteUser = async () => {
@@ -57,40 +43,34 @@ const EditProfile = () => {
     navigate('/');
   };
 
-  useEffect(() => {
-    async function getEmail() {
-      await dispatch(getSingleUser({ id, token }));
-    }
-    getEmail();
-    localStorageSetUser({ id: id, name: name });
-    localStorageSetUserToken(token);
-  }, [dispatch, id, name, token]);
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<propsSubmitSignUp>({ mode: 'onSubmit', defaultValues: { name: name, email: login } });
   return (
     <Container maxWidth="xs">
-      <CssBaseline />
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
         }}
       >
-        <Typography component="h2" variant="h5">
+        <Typography component="h2" variant="h5" sx={{ fontStyle: 'italic' }}>
           {t('EDIT_PROFILE')}
         </Typography>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
           <TextField
-            error={Boolean(errors?.name?.message)}
+            variant="standard"
+            size="small"
+            required
+            error={!!errors?.name?.message}
             helperText={errors?.name?.message ? errors?.name?.message : ' '}
             margin="normal"
-            required
             fullWidth
             id="name"
             label={t('SIGNUP.NAME')}
             autoFocus
-            placeholder={name}
             {...register('name', {
               required: { value: true, message: `${t('FORM.REQUIRE_MSG')}` },
               minLength: {
@@ -100,16 +80,15 @@ const EditProfile = () => {
             })}
           />
           <TextField
-            error={Boolean(errors?.email?.message)}
-            helperText={errors?.email?.message ? errors?.email?.message : ' '}
-            margin="normal"
+            variant="standard"
+            size="small"
             required
+            error={!!errors?.email?.message}
+            helperText={errors?.email?.message ? errors?.email?.message : ' '}
             fullWidth
-            placeholder={login}
             autoComplete="username"
             id="email"
             label={t('FORM.EMAIL')}
-            defaultValue={() => localStorageGetUser().id}
             {...register('email', {
               required: { value: true, message: `${t('FORM.REQUIRE_MSG')}` },
               pattern: {
@@ -120,10 +99,11 @@ const EditProfile = () => {
             })}
           />
           <TextField
-            error={Boolean(errors.password)}
-            helperText={errors.password?.message ? errors.password?.message : ' '}
-            margin="normal"
+            variant="standard"
+            size="small"
             required
+            error={!!errors.password}
+            helperText={errors.password?.message ? errors.password?.message : ' '}
             fullWidth
             label={t('FORM.PASSWORD')}
             type={showPassword ? 'text' : 'password'}
@@ -131,7 +111,7 @@ const EditProfile = () => {
             autoComplete="current-password"
             InputProps={{
               endAdornment: (
-                <InputAdornment position="end">
+                <InputAdornment position="start">
                   <IconButton onClick={() => setShowPassword((prevState) => !prevState)} edge="end">
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
@@ -150,6 +130,7 @@ const EditProfile = () => {
             type="submit"
             fullWidth
             variant="contained"
+            color="success"
             endIcon={<SendIcon />}
             loading={pending}
             loadingPosition="end"
@@ -164,7 +145,7 @@ const EditProfile = () => {
             {t('UPDATE_BTN')}
           </LoadingButton>
           <Button
-            variant="outlined"
+            variant="contained"
             color="error"
             fullWidth
             onClick={() => setIsOpenConformModal(true)}
