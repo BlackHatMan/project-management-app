@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { clearSingleBoard, getSingleBoard } from '../../store/slices/boardSlice';
 import { updateColumn, updateDrag } from '../../store/slices/columnReducer';
-import { logOut } from '../../store/slices/authSlice';
+import { logOut } from '../../store/slices/authReduser';
 import NewColumn from '../NewColumn';
 import ModalWindow from '../ModalWindow';
 import Column from '../Column';

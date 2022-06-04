@@ -5,7 +5,7 @@ import { BASE_URL } from '../../constants/constants';
 import { boardState, IBoard, IBoardPreview } from '../../types/board';
 import { createColumn, deleteColumn, updateDrag, updateTitleColumn } from './columnReducer';
 import { getAllUsers } from './userReducer';
-import { logOut } from './authSlice';
+import { logOut } from './authReduser';
 
 const initialSingleBoard: IBoard = {
   id: '',

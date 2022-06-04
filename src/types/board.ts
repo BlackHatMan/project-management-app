@@ -1,4 +1,4 @@
-import { IUserResponse } from '../store/slices/authSlice';
+import { IUserResponse } from '../store/slices/authReduser';
 
 export interface boardState {
   boards: IBoardPreview[];

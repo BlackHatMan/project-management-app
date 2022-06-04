@@ -17,7 +17,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
 import ConformModal from '../ConformModal';
 import { propsSubmitSignUp } from '../Login/SignUp';
-import { deleteCurrentUser, logOut, updateUser } from '../../store/slices/authSlice';
+import { deleteCurrentUser, logOut, updateUser } from '../../store/slices/authReduser';
 
 const EditProfile = () => {
   const dispatch = useAppDispatch();

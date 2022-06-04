@@ -16,7 +16,7 @@ import { useTranslation, TFuncKey } from 'react-i18next';
 import { LOGO } from '../../constants/constants';
 import LoginMenu from './LoginMenu';
 import AwesomeLink from './AwesomeLink';
-import { getSingleUser } from '../../store/slices/authSlice';
+import { getSingleUser } from '../../store/slices/authReduser';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
 
 const Header = () => {

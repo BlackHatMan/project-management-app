@@ -17,7 +17,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import SendIcon from '@mui/icons-material/Send';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
-import { createToken } from '../../store/slices/authSlice';
+import { createToken } from '../../store/slices/authReduser';
 import { useTranslation } from 'react-i18next';
 
 const Login = () => {
