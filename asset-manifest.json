@@ -1,9 +1,9 @@
 {
   "files": {
     "main.css": "/project-management-app/static/css/main.946f8da1.css",
-    "main.js": "/project-management-app/static/js/main.dfda63e2.js",
+    "main.js": "/project-management-app/static/js/main.2429970c.js",
     "static/js/995.e2b633fc.chunk.js": "/project-management-app/static/js/995.e2b633fc.chunk.js",
-    "static/js/504.187e5f9e.chunk.js": "/project-management-app/static/js/504.187e5f9e.chunk.js",
+    "static/js/504.b55e494b.chunk.js": "/project-management-app/static/js/504.b55e494b.chunk.js",
     "static/js/318.af2c9505.chunk.js": "/project-management-app/static/js/318.af2c9505.chunk.js",
     "static/js/787.9538e3f3.chunk.js": "/project-management-app/static/js/787.9538e3f3.chunk.js",
     "static/js/732.ed5c60ab.chunk.js": "/project-management-app/static/js/732.ed5c60ab.chunk.js",
@@ -15,15 +15,15 @@
     "static/media/rs_school.svg": "/project-management-app/static/media/rs_school.b188f29c621b596c07d794eef740998b.svg",
     "index.html": "/project-management-app/index.html",
     "main.946f8da1.css.map": "/project-management-app/static/css/main.946f8da1.css.map",
-    "main.dfda63e2.js.map": "/project-management-app/static/js/main.dfda63e2.js.map",
+    "main.2429970c.js.map": "/project-management-app/static/js/main.2429970c.js.map",
     "995.e2b633fc.chunk.js.map": "/project-management-app/static/js/995.e2b633fc.chunk.js.map",
-    "504.187e5f9e.chunk.js.map": "/project-management-app/static/js/504.187e5f9e.chunk.js.map",
+    "504.b55e494b.chunk.js.map": "/project-management-app/static/js/504.b55e494b.chunk.js.map",
     "318.af2c9505.chunk.js.map": "/project-management-app/static/js/318.af2c9505.chunk.js.map",
     "787.9538e3f3.chunk.js.map": "/project-management-app/static/js/787.9538e3f3.chunk.js.map",
     "732.ed5c60ab.chunk.js.map": "/project-management-app/static/js/732.ed5c60ab.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.946f8da1.css",
-    "static/js/main.dfda63e2.js"
+    "static/js/main.2429970c.js"
   ]
 }
