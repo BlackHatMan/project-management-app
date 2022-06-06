@@ -3,9 +3,8 @@ import { Button, DialogActions, DialogContent, DialogTitle, TextField } from '@m
 import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
 import { localStorageGetUser } from '../../utils/localStorage';
 import { useForm } from 'react-hook-form';
-// import { useAppSelector } from '../../hooks/redux.hooks';
 import { useTranslation } from 'react-i18next';
-import { createTask } from '../../store/slices/taskResucer';
+import { createTask } from '../../store/reducer/taskResucer';
 import { ITaskResponse } from '../../types/board';
 
 type IFormInputNewTask = {
@@ -13,17 +12,7 @@ type IFormInputNewTask = {
   description: string;
 };
 
-const FormNewTask = ({
-  columnId,
-  onClose,
-}: // dataTasks,
-// setDataTasks,
-{
-  columnId: string;
-  onClose: () => void;
-  // dataTasks: ITaskResp[];
-  // setDataTasks: React.Dispatch<React.SetStateAction<ITaskResp[]>>;
-}) => {
+const FormNewTask = ({ columnId, onClose }: { columnId: string; onClose: () => void }) => {
   const {
     register,
     handleSubmit,
@@ -32,7 +21,6 @@ const FormNewTask = ({
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { boardId } = useParams();
-  // const { id } = useAppSelector((state) => state.auth);
   const { singleBoard } = useAppSelector((state) => state.boards);
 
   const onSubmit = (data: IFormInputNewTask) => {

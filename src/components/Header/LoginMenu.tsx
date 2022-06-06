@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { IconButton, Button, useMediaQuery } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { logOut } from '../../store/slices/authReduser';
+import { logOut } from '../../store/reducer/authReduser';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
 import HeaderTooltip from './HeaderTooltip';
 import { useTranslation } from 'react-i18next';

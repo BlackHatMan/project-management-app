@@ -23,7 +23,7 @@ import { useForm } from 'react-hook-form';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ConformModal from '../ConformModal';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
-import { deleteTask, updateTask } from '../../store/slices/taskResucer';
+import { deleteTask, updateTask } from '../../store/reducer/taskResucer';
 import { localStorageGetUser } from '../../utils/localStorage';
 import { useTranslation } from 'react-i18next';
 type IFormTaskData = {

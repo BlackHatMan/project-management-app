@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import React, { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import dataPictures from '../../dataPictures';
+import dataPictures from '../../utils/dataPictures';
 import { useTranslation } from 'react-i18next';
 
 interface IFormInput {

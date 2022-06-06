@@ -1,13 +1,13 @@
 import { Container, Button, Backdrop, CircularProgress } from '@mui/material';
-import BoardPreview from '../BoardPreview';
+import BoardPreview from '../components/BoardPreview';
 import { useEffect, useState } from 'react';
-import ModalWindow from '../ModalWindow';
-import FormCreateBoard from '../FormCreateBoard';
-import { useAppSelector, useAppDispatch } from '../../hooks/redux.hooks';
-import { getAllBoards, deleteBoard, createBoard } from '../../store/slices/boardSlice';
+import ModalWindow from '../components/ModalWindow';
+import FormCreateBoard from '../components/FormCreateBoard';
+import { useAppSelector, useAppDispatch } from '../hooks/redux.hooks';
+import { getAllBoards, deleteBoard, createBoard } from '../store/reducer/boardSlice';
 import { useTranslation } from 'react-i18next';
 
-const BoardsPage = () => {
+const BoardsRoute = () => {
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useAppDispatch();
   const { boards, pending } = useAppSelector((state) => state.boards);
@@ -83,4 +83,4 @@ const BoardsPage = () => {
   );
 };
 
-export default BoardsPage;
+export default BoardsRoute;

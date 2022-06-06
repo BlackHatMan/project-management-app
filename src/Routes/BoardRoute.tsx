@@ -3,24 +3,24 @@ import { useNavigate } from 'react-router-dom';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 import { Button, Container, Stack, useMediaQuery } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
-import { clearSingleBoard } from '../../store/slices/boardSlice';
-import { updateColumn, updateDrag } from '../../store/slices/columnReducer';
-import { logOut } from '../../store/slices/authReduser';
-import { updateDragTask, updDragTask, moveTaskOnServer } from '../../store/slices/taskResucer';
-import NewColumn from '../NewColumn';
-import ModalWindow from '../ModalWindow';
-import Column from '../Column';
-import Toolbar from '../Toolbar';
-import { ITask } from '../../types/board';
-import { IColumnsResp } from '../../utils/types/board';
+import { useAppDispatch, useAppSelector } from '../hooks/redux.hooks';
+import { clearSingleBoard } from '../store/reducer/boardSlice';
+import { updateColumn, updateDrag } from '../store/reducer/columnReducer';
+import { logOut } from '../store/reducer/authReduser';
+import { updateDragTask, updDragTask, moveTaskOnServer } from '../store/reducer/taskResucer';
+import NewColumn from '../components/NewColumn';
+import ModalWindow from '../components/ModalWindow';
+import Column from '../components/Column';
+import Toolbar from '../components/Toolbar';
+import { ITask } from '../types/board';
+import { IColumnsResp } from '../utils/types/board';
 
 export type IFilters = {
   searchText: string;
   usersId: string[];
 };
 
-const SingleBoardPage = () => {
+const BoardRoute = () => {
   const [isOpenModalAddNewColumn, setIsOpenModalAddNewColumn] = useState(false);
   const {
     rejectMsg,
@@ -310,4 +310,4 @@ const SingleBoardPage = () => {
   );
 };
 
-export default SingleBoardPage;
+export default BoardRoute;

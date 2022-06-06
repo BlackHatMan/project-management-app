@@ -17,7 +17,7 @@ import { LoadingButton } from '@mui/lab';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import SendIcon from '@mui/icons-material/Send';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { createToken, createUser } from '../../store/slices/authReduser';
+import { createToken, createUser } from '../../store/reducer/authReduser';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
 
 const SignUp = () => {

@@ -3,8 +3,8 @@ import { Stack, Snackbar } from '@mui/material';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux.hooks';
 import { useTranslation } from 'react-i18next';
-import { clearRejectMsg } from '../../store/slices/boardSlice';
-import { clearAuthMsg } from '../../store/slices/authReduser';
+import { clearRejectMsg } from '../../store/reducer/boardSlice';
+import { clearAuthMsg } from '../../store/reducer/authReduser';
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;

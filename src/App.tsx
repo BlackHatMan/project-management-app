@@ -1,31 +1,28 @@
 import { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout/Layout';
-import WelcomePage from './components/pages/WelcomePage';
-import Login from './components/Login/Login';
-import BoardsPage from './components/pages/BoardsPage';
+import { Layout, Login, ErrorBoundary, SignUp } from './components';
+import WelcomeRoute from './Routes/WelcomeRoute';
+import BoardsRoute from './Routes/BoardsRoute';
 import RequireAuth from './hoc/RequireAuth';
-import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
-import SignUp from './components/Login/SignUp';
 import Loading from './hoc/Loading';
 
-const Page404 = lazy(() => import('./components/pages/Page404'));
-const SingleBoardPage = lazy(() => import('./components/pages/SingleBoardPage'));
-const EditProfile = lazy(() => import('./components/pages/EditProfile'));
+const Page404 = lazy(() => import('./Routes/Page404'));
+const BoardRoute = lazy(() => import('./Routes/BoardRoute'));
+const ProfileRoute = lazy(() => import('./Routes/ProfileRoute'));
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<WelcomePage />} />
+          <Route index element={<WelcomeRoute />} />
           <Route
             path="edit-profile"
             element={
               <ErrorBoundary>
                 <RequireAuth>
                   <Suspense fallback={<Loading />}>
-                    <EditProfile />
+                    <ProfileRoute />
                   </Suspense>
                 </RequireAuth>
               </ErrorBoundary>
@@ -36,7 +33,7 @@ function App() {
             element={
               <ErrorBoundary>
                 <RequireAuth>
-                  <BoardsPage />
+                  <BoardsRoute />
                 </RequireAuth>
               </ErrorBoundary>
             }
@@ -47,7 +44,7 @@ function App() {
               <ErrorBoundary>
                 <RequireAuth>
                   <Suspense fallback={<Loading />}>
-                    <SingleBoardPage />
+                    <BoardRoute />
                   </Suspense>
                 </RequireAuth>
               </ErrorBoundary>

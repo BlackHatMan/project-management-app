@@ -14,12 +14,12 @@ import {
   Typography,
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
-import ConformModal from '../ConformModal';
-import { propsSubmitSignUp } from '../Login/SignUp';
-import { deleteCurrentUser, logOut, updateUser } from '../../store/slices/authReduser';
+import { useAppDispatch, useAppSelector } from '../hooks/redux.hooks';
+import ConformModal from '../components/ConformModal';
+import { propsSubmitSignUp } from '../components/Login/SignUp';
+import { deleteCurrentUser, logOut, updateUser } from '../store/reducer/authReduser';
 
-const EditProfile = () => {
+const ProfileRoute = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -163,4 +163,4 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export default ProfileRoute;

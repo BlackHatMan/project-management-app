@@ -10,9 +10,9 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import React, { FC } from 'react';
-import dataPictures from '../../dataPictures';
+import dataPictures from '../../utils/dataPictures';
 import { useNavigate } from 'react-router-dom';
-import { getSingleBoard, updateBoard } from '../../store/slices/boardSlice';
+import { getSingleBoard, updateBoard } from '../../store/reducer/boardSlice';
 import ConformModal from '../ConformModal';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -20,7 +20,7 @@ import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../hooks/redux.hooks';
 import { IBoardPreview } from '../../types/board';
 import { useTranslation } from 'react-i18next';
-import { getAllUsers } from '../../store/slices/userReducer';
+import { getAllUsers } from '../../store/reducer/userReducer';
 
 const BoardPreview: FC<{
   board: IBoardPreview;

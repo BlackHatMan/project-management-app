@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
 import { useTranslation } from 'react-i18next';
-import { createColumn } from '../../store/slices/columnReducer';
+import { createColumn } from '../../store/reducer/columnReducer';
 
 type formData = {
   title: string;

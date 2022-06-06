@@ -12,10 +12,10 @@ import { Draggable, Droppable } from 'react-beautiful-dnd';
 import ConformModal from '../ConformModal';
 import { useAppDispatch } from '../../hooks/redux.hooks';
 import { IColumn } from '../../types/board';
-import { deleteColumn, updateTitleColumn } from '../../store/slices/columnReducer';
+import { deleteColumn, updateTitleColumn } from '../../store/reducer/columnReducer';
 import Task from '../Task';
 import { useTranslation } from 'react-i18next';
-import { IFilters } from '../pages/SingleBoardPage';
+import { IFilters } from '../../Routes/BoardRoute';
 
 type IFormInputChangeName = {
   title: string;

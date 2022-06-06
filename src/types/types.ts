@@ -3,8 +3,9 @@ export interface UserInfo {
   name: string | undefined;
 }
 
-export interface UserJWT {
+/* export interface UserJWT {
   userId: string;
   login: string;
   iat: number;
 }
+ */

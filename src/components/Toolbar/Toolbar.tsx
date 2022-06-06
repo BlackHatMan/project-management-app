@@ -16,7 +16,7 @@ import {
 import React from 'react';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import { useAppSelector } from '../../hooks/redux.hooks';
-import { IFilters } from '../pages/SingleBoardPage';
+import { IFilters } from '../../Routes/BoardRoute';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
 

@@ -1,14 +1,14 @@
 import { Container, Typography, Grid, CardMedia, CardContent, Link } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import bgImage from '../../assets/images/bg.webp';
-import olgaImg from '../../assets/images/olga.jpg';
-import victorImg from '../../assets/images/victor.jpg';
-import evgeniyImg from '../../assets/images/eugen.jpg';
+import bgImage from '../assets/images/bg.webp';
+import olgaImg from '../assets/images/olga.jpg';
+import victorImg from '../assets/images/victor.jpg';
+import evgeniyImg from '../assets/images/eugen.jpg';
 
 import { useTranslation } from 'react-i18next';
-import { mainBgColor } from '../../constants/constants';
+import { mainBgColor } from '../constants/constants';
 
-const WelcomePage = () => {
+const WelcomeRoute = () => {
   const { t } = useTranslation();
   const developers = [
     {
@@ -175,4 +175,4 @@ const WelcomePage = () => {
   );
 };
 
-export default WelcomePage;
+export default WelcomeRoute;
